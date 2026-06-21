@@ -1,0 +1,39 @@
+apiversion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-np
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app-np	
+  template:
+     metadata:
+       labels:
+	       app: my-app-np 
+	   spec:
+       containers:
+       - name: nginx-container
+         image: nginx:latest 
+         port:
+         - containerPort: 80 
+---
+apiversion: v1
+kind: Service
+metadata:
+  name: my-service-np
+spec: 
+  type: NodePort
+  selector:
+    app: my-app-np
+  ports:
+  - port: 80  
+    targetPort: 80
+    protocol: TCP 
+    nodePort: 30007
+	
+	  # By default and for convenience, the `targetPort` is set to
+      # the same value as the `port` field.
+	  # targetport is Optional field
+      # By default and for convenience, the Kubernetes control plane
+      # will allocate a port from a range (default: 30000-32767) 
