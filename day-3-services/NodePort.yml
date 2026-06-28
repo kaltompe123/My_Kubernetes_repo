@@ -1,4 +1,4 @@
-apiversion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-deployment-np
@@ -10,12 +10,12 @@ spec:
   template:
      metadata:
        labels:
-	       app: my-app-np 
-	   spec:
+         app: my-app-np 
+     spec:
        containers:
        - name: nginx-container
          image: nginx:latest 
-         port:
+         ports:
          - containerPort: 80 
 ---
 apiversion: v1
