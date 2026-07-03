@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-hpa
+  namespace: default
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      clr: black 
+  template: 
+     metadata:
+       labels:
+         clr: black 
+     spec: 
+       containers:
+       - name: containers-nginx
+         image: nginx 
+         ports:
+         - containerPort: 80 
+         resources:
+            requests:
+              cpu: "250m"
+           # You must specify requests for CPU to autoscale
+           # based on CPU utilization         
