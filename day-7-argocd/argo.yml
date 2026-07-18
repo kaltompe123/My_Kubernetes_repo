@@ -1,3 +1,6 @@
+#kubectl create namespace argocd
+#kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -19,5 +22,5 @@ spec:
     - CreateNamespace=true
 
     automated:
-      selfHeal: true
+      selfHeal: false
       prune: true
