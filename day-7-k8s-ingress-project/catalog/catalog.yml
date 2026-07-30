@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+      - name: catalog
+        image: 654654239448.dkr.ecr.us-east-1.amazonaws.com/myecrrepo:catalog
+        ports:
+        - containerPort: 80
+        env:
+        - name: catalog
+          value: "CATALOG APP"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: catalog

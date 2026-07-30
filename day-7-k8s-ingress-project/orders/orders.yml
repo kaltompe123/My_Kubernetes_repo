@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: 654654239448.dkr.ecr.us-east-1.amazonaws.com/orders:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: orders
+          value: "orders APP"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: orders
