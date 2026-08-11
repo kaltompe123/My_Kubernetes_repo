@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/my-org/my-repo.git'
+    targetRevision: main
+    path: charts/nginx
+    helm:
+      parameters:
+        - name: replicaCount
+          value: "3"
+        - name: image.tag
+          value: "1.26.0"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated: {}
+	
