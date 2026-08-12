@@ -1,26 +1,9 @@
-{{- if .Values.serviceAccount.create -}}
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{ include "hellworld.serviceAccountName" . }}
-  labels:
-    {{- include "hellworld.labels" . | nindent 4 }}
-  {{- with .Values.serviceAccount.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-automountServiceAccountToken: {{ .Values.serviceAccount.automount }}
-{{- end }}
-[root@ip-172-31-27-36 templates]# ll tests/
-total 4
--rw-r--r--. 1 root root 385 Aug 12 17:00 test-connection.yaml
-[root@ip-172-31-27-36 templates]# cat  tests/test-connection.yaml 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "hellworld.fullname" . }}-test-connection"
+  name: "{{ include "helloworld.fullname" . }}-test-connection"
   labels:
-    {{- include "hellworld.labels" . | nindent 4 }}
+    {{- include "helloworld.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -28,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "hellworld.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "helloworld.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
