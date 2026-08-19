@@ -21,4 +21,9 @@ spec:
         - key: "app"
           operator: "Equal"
           value: "blue"
-          effect: "NoSchedule"
+          effect: "NoSchedule"  
+
+# kubectl taint nodes ip-192-168-18-27.ec2.internal app=blue:NoSchedule- #untaint 
+# kubectl taint nodes ip-192-168-18-27.ec2.internal app=blue:NoSchedule #taint 
+# kubectl taint nodes ip-192-168-18-27.ec2.internal app=blue:NoExecute #taint
+# kubectl taint nodes ip-192-168-18-27.ec2.internal app=blue:NoExecute- #untaint         
