@@ -1,0 +1,49 @@
+aws resources acces from pods using service account 
+
+step1:
+vi policy.json
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*",
+                "s3-object-lambda:*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+step2: 
+
+aws iam create-policy --policy-name MyAppPolicy --policy-document file://policy.json
+
+step3: create oidc 
+eksctl utils associate-iam-oidc-provider --region us-east-1  --cluster <CLUSTER_NAME>  --approve
+#eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster nareshit --approve
+
+to get output 
+aws eks describe-cluster --name nareshit  --query "cluster.identity.oidc.issuer" --output text
+
+step4: 
+
+eksctl create iamserviceaccount  --cluster <CLUSTER_NAME>  --region <REGION>   --namespace default  --name eksiamserviceaccount  --attach-policy-arn arn:aws:iam::726929447409:policy/MyAppPolicy --approve
+
+eksctl create iamserviceaccount  --cluster nareshit  --region us-east-1   --namespace default  --name eksiamserviceaccount  --attach-policy-arn arn:aws:iam::726929447409:policy/MyAppPolicy --approve
+
+step5: 
+from pod 
+aws s3 ls 
+
+
+apt-get update
+apt-get install -y unzip curl
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+
+aws --version

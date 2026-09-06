@@ -1,0 +1,37 @@
+#kubectl edit cm aws-auth -n kube-system
+
+# mapRoles: |
+#     - groups:
+#       - system:bootstrappers
+#       - system:nodes
+#       rolearn: arn:aws:iam::545009827818:role/eksctl-naresh-nodegroup-ng-2b5f9fe-NodeInstanceRole-Fifi7BsDcajz
+#       username: system:node:{{EC2PrivateDNSName}}
+
+# mapUsers: |
+#    - userarn: arn:aws:iam::843976229340:user/testuser1
+#      username: testuser1
+#      groups:
+#        - developer		
+
+
+
+#  mapUsers: |
+#     - userarn: arn:aws:iam::867112023266:user/user1    ##give here the IAM user ARN ,it should be below maproles section this is for master role 
+#       username: user1
+#       groups:
+#         - system:masters
+
+
+
+
+
+# Step-1 Need to create IAM user with EKS cluster permission 
+# Step-2 aws configure --profile IAMuser
+
+# step-3 create kuberenetes Role 
+# step-4 cretae kuberentes role binding to bind role and group
+# step-5 add usr arn into config map file
+
+
+from client end to update context of kubeconfig file to use the IAM user credentials, you can use the following command:
+#aws eks update-kubeconfig --region us-east-1  --name nareshit
