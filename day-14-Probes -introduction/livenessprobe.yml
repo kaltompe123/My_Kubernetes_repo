@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /   ##to check the liveness of the pod, we can use the liveness probe. The liveness probe checks if the application is still running. If the liveness probe fails, the pod will be restarted. To distrub pod give wrong path in the liveness probe. For example, if we give /wrongpath in the liveness probe, the pod will be restarted .
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3

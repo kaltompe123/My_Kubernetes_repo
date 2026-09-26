@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+  # startup probe used for slow starting application. Startup probe is used to check if the application has started successfully. If the startup probe fails, the pod will be restarted until it starts successfully.
+        startupProbe:
+          httpGet:
+            port: 80
+            path: /     ##to check the startup of the pod, we can use the startup probe. The startup probe checks if the application has started successfully. If the startup probe fails, the pod will be restarted until it starts successfully.
+          periodSeconds: 10
+          failureThreshold: 3
+
+ # Readiness probe used for checking if the application is ready to serve traffic. Readiness probe is used to check if the application is ready to serve traffic. If the readiness probe fails, the pod will not be added to the service endpoints.      
+        readinessProbe:
+          httpGet:
+            port: 80
+            path: /     ##to check the readiness of the pod, we can use the readiness probe. The readiness probe checks if the application is ready to serve traffic. If the readiness probe fails, the pod will not be added to the service endpoints.
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
+
+# Liveness probe used for checking if the application is still running. Liveness probe is used to check if the application is still running. If the liveness probe fails, the pod will be restarted.
+        livenessProbe:
+          httpGet:
+            port: 80
+            path: /     ##to check the liveness of the pod, we can use the liveness probe. The liveness probe checks if the application is still running. If the liveness probe fails, the pod will be restarted.
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          failureThreshold: 3
